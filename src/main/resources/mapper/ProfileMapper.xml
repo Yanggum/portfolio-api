@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tia.portfolio.api.profile.service.ProfileServiceImpl">
+    <!--페이징 시작-->
+    <sql id="COMMON_PAGING_HEADER">
+        select R1.* FROM(
+    </sql>
+
+    <sql id="COMMON_PAGING_TAIL">
+        ) R1
+	LIMIT #{length, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+    </sql>
+    <!--페이징 끝-->
+
+
+
+    <select id="listBy" parameterType="java.util.HashMap" resultType="com.tia.portfolio.api.common.util.TiMap">
+--         SELECT
+--             NOVEL_NO
+--              , TITLE
+--              , REG_ID
+--              , date_format(REG_DT, '%Y%m%d') AS REG_DT
+--              , UPD_ID
+--              , date_format(UPD_DT, '%Y%m%d') AS UPD_DT
+--         FROM ch_novel
+--         ORDER BY REG_DT DESC
+            SELECT
+                UPNO
+                , SUBTITLE
+                , NAME
+                , ADDR
+                , ADDR_DETAIL
+                , RESUME_LINK
+                , PRIVATE_RESUME_LINK
+            FROM pf_land_user_profile
+            ORDER BY UPNO DESC
+    </select>
+
+    <select id="listChapterBy" parameterType="com.tia.portfolio.api.profile.model.ProfileReq" resultType="com.tia.portfolio.api.common.util.TiMap">
+        SELECT
+            CHAP_NO
+             , NOVEL_NO
+             , TITLE
+        FROM ch_novel_chapter
+        WHERE NOVEL_NO = #{novelNo}
+    </select>
+
+    <select id="itemBy" parameterType="com.tia.portfolio.api.common.util.TiMap" resultType="com.tia.portfolio.api.common.util.TiMap">
+        SELECT
+            UPNO
+             , SUBTITLE
+             , NAME
+             , ADDR
+             , ADDR_DETAIL
+             , RESUME_LINK
+             , PRIVATE_RESUME_LINK
+        FROM pf_land_user_profile
+        WHERE UPNO = #{upno}
+    </select>
+
+    <insert id="insertProfile" parameterType="com.tia.portfolio.api.profile.model.Profile">
+        INSERT INTO ch_novel
+        (
+            TITLE,
+            REG_ID,
+            REG_DT,
+            UPD_ID,
+            UPD_DT
+        )
+        VALUES
+            (
+              #{title}
+            , #{regId}
+            , NOW()
+            , #{updId}
+            , NOW()
+            )
+    </insert>
+
+    <update id="updateProfile" parameterType="com.tia.portfolio.api.profile.model.Profile">
+        UPDATE ch_novel
+        SET TITLE = #{title}
+          , UPD_ID  = #{updId}
+          , UPD_DT  = NOW()
+        WHERE NOVEL_NO = #{novelNo}
+    </update>
+</mapper>
