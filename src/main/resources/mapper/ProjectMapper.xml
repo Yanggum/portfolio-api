@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tia.portfolio.api.profile.service.ProfileServiceImpl">
+<mapper namespace="com.tia.portfolio.api.profile.service.ProjectServiceImpl">
     <!--페이징 시작-->
     <sql id="COMMON_PAGING_HEADER">
         select R1.* FROM(
@@ -23,14 +23,15 @@
 --         FROM ch_novel
 --         ORDER BY REG_DT DESC
            SELECT
-            UPNO
-            , SUBTITLE
-            , NAME
-            , RESUME_LINK
-            , JOB
-            , CAREER_DESC
-           FROM pf_land_user_profile
-           ORDER BY UPNO DESC
+               UPL_NO
+               , UPNO
+               , PL_TYPE
+               , PROJECT_LINK
+               , PROJECT_NAME
+               , PROJECT_DESC
+           FROM pf_land_user_project_list
+           WHERE UPNO = #{upno}
+           ORDER BY UPL_NO ASC
     </select>
 
 

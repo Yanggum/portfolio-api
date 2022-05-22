@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tia.portfolio.api.profile.service.ProfileServiceImpl">
+<mapper namespace="com.tia.portfolio.api.profile.service.SkillServiceImpl">
     <!--페이징 시작-->
     <sql id="COMMON_PAGING_HEADER">
         select R1.* FROM(
@@ -22,15 +22,13 @@
 --              , date_format(UPD_DT, '%Y%m%d') AS UPD_DT
 --         FROM ch_novel
 --         ORDER BY REG_DT DESC
-           SELECT
-            UPNO
-            , SUBTITLE
-            , NAME
-            , RESUME_LINK
-            , JOB
-            , CAREER_DESC
-           FROM pf_land_user_profile
-           ORDER BY UPNO DESC
+            SELECT
+                SKL_NO
+                , UPNO
+                , SKL_NAME
+            FROM pf_land_user_skills
+            WHERE UPNO = #{upno}
+            ORDER BY SKL_NO ASC
     </select>
 
 

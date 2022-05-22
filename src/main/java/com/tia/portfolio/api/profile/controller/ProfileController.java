@@ -9,6 +9,9 @@ import com.tia.portfolio.api.common.util.TiMap;
 import com.tia.portfolio.api.profile.model.Profile;
 import com.tia.portfolio.api.profile.model.ProfileReq;
 import com.tia.portfolio.api.profile.service.ProfileService;
+import com.tia.portfolio.api.profile.service.ProjectService;
+import com.tia.portfolio.api.profile.service.SkillService;
+import com.tia.portfolio.api.profile.service.TaskService;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -26,11 +29,18 @@ public class ProfileController {
 
     @Autowired
     ProfileService ps;
+    @Autowired
+    ProjectService pjs;
+    @Autowired
+    SkillService ss;
+    @Autowired
+    TaskService ts;
+
 
     @PostMapping(value="/get-potf-list")
     public String getProfileList(Model model) throws Exception {
 
-        ProfileReq list        = new ProfileReq();
+        TiMap list        = new TiMap();
         JsonObject result      = new JsonObject();
         Gson gson        = new Gson();
 
@@ -58,11 +68,13 @@ public class ProfileController {
         // populate your list
         JsonElement element = gson.toJsonTree(ps.itemBy(req));
 
-//        if (!element.isJsonArray()) {
-//            throw new Exception();
-//        }
-//
-//        JsonArray jsonArray = new JsonArray();//element.getAsJsonArray();
+        JsonElement tsElement = gson.toJsonTree(ts.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
+        JsonElement ssElement = gson.toJsonTree(ss.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
+        JsonElement pjsElement = gson.toJsonTree(pjs.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
+
+        element.getAsJsonObject().add("taskList", tsElement);
+        element.getAsJsonObject().add("skillList", ssElement);
+        element.getAsJsonObject().add("projectList", pjsElement);
 
         result.add("profileInfo", element);
         result.addProperty("respCode", "00000");

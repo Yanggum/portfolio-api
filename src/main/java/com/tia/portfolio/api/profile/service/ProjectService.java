@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 import com.tia.portfolio.api.common.util.TiMap;
 
 @Service
-public class ProfileService {
-
+public class ProjectService {
     @Autowired
-    ProfileServiceImpl nm;
+    ProjectServiceImpl nm;
 
     public Page<TiMap> listBy(TiMap nr){
         return nm.listBy(nr);

@@ -7,13 +7,11 @@ import com.tia.portfolio.api.profile.model.ProfileReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tia.portfolio.api.common.util.TiMap;
-
 @Service
-public class ProfileService {
+public class SkillService {
 
     @Autowired
-    ProfileServiceImpl nm;
+    SkillServiceImpl nm;
 
     public Page<TiMap> listBy(TiMap nr){
         return nm.listBy(nr);
@@ -28,5 +26,6 @@ public class ProfileService {
     public void update(TiMap n){
         nm.update(n);
     }
+
 
 }
