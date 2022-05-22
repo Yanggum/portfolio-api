@@ -12,8 +12,6 @@
     </sql>
     <!--페이징 끝-->
 
-
-
     <select id="listBy" parameterType="java.util.HashMap" resultType="com.tia.portfolio.api.common.util.TiMap">
 --         SELECT
 --             NOVEL_NO
@@ -24,41 +22,31 @@
 --              , date_format(UPD_DT, '%Y%m%d') AS UPD_DT
 --         FROM ch_novel
 --         ORDER BY REG_DT DESC
-            SELECT
-                UPNO
-                , SUBTITLE
-                , NAME
-                , ADDR
-                , ADDR_DETAIL
-                , RESUME_LINK
-                , PRIVATE_RESUME_LINK
-            FROM pf_land_user_profile
-            ORDER BY UPNO DESC
+           SELECT
+            UPNO
+            , SUBTITLE
+            , NAME
+            , RESUME_LINK
+            , JOB
+            , CAREER_DESC
+           FROM pf_land_user_profile
+           ORDER BY UPNO DESC
     </select>
 
-    <select id="listChapterBy" parameterType="com.tia.portfolio.api.profile.model.ProfileReq" resultType="com.tia.portfolio.api.common.util.TiMap">
-        SELECT
-            CHAP_NO
-             , NOVEL_NO
-             , TITLE
-        FROM ch_novel_chapter
-        WHERE NOVEL_NO = #{novelNo}
-    </select>
 
     <select id="itemBy" parameterType="com.tia.portfolio.api.common.util.TiMap" resultType="com.tia.portfolio.api.common.util.TiMap">
         SELECT
             UPNO
              , SUBTITLE
              , NAME
-             , ADDR
-             , ADDR_DETAIL
              , RESUME_LINK
-             , PRIVATE_RESUME_LINK
+             , JOB
+             , CAREER_DESC
         FROM pf_land_user_profile
         WHERE UPNO = #{upno}
     </select>
 
-    <insert id="insertProfile" parameterType="com.tia.portfolio.api.profile.model.Profile">
+    <insert id="insert" parameterType="com.tia.portfolio.api.common.util.TiMap">
         INSERT INTO ch_novel
         (
             TITLE,
@@ -77,7 +65,7 @@
             )
     </insert>
 
-    <update id="updateProfile" parameterType="com.tia.portfolio.api.profile.model.Profile">
+    <update id="update" parameterType="com.tia.portfolio.api.common.util.TiMap">
         UPDATE ch_novel
         SET TITLE = #{title}
           , UPD_ID  = #{updId}

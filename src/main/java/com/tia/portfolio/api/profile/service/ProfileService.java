@@ -17,16 +17,14 @@ public class ProfileService {
         return nm.listBy(nr);
     }
 
-    public Page<TiMap> listChapterBy(ProfileReq nr) { return nm.listChapterBy(nr); }
-
     public TiMap itemBy(TiMap nr) { return nm.itemBy(nr); }
 
-    public void insertNovel(Profile n){
-        nm.insertNovel(n);
+    public void insert(Profile n){
+        nm.insert(n);
     }
 
-    public void updateNovel(Profile n){
-        nm.updateNovel(n);
+    public void update(Profile n){
+        nm.update(n);
     }
 
 }

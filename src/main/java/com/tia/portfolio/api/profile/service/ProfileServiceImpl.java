@@ -11,11 +11,9 @@ public interface ProfileServiceImpl {
 
     public Page<TiMap> listBy(ProfileReq nr);
 
-    public Page<TiMap> listChapterBy(ProfileReq nr);
-
     public TiMap itemBy(TiMap nr);
 
-    public void insertNovel(Profile n);
+    public void insert(Profile n);
 
-    public void updateNovel(Profile n);
+    public void update(Profile n);
 }
