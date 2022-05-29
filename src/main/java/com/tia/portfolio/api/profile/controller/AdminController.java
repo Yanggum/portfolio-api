@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value="/api/v1/pc/")
-public class ProfileController {
+@RequestMapping(value="/api/v1/admin/")
+public class AdminController {
     final int pageSize = 10;
 
     @Autowired
@@ -36,9 +36,8 @@ public class ProfileController {
     @Autowired
     TaskService ts;
 
-
     @PostMapping(value="/get-potf-list")
-    public String getProfileList(Model model) throws Exception {
+    public String getProfileList(@RequestBody TiMap req, Model model) throws Exception {
 
         TiMap list        = new TiMap();
         JsonObject result      = new JsonObject();
@@ -61,7 +60,7 @@ public class ProfileController {
     }
 
     @PostMapping(value="/get-potf-info")
-    public String getProfileInfo(@RequestBody TiMap req) throws Exception {
+    public String getProfileInfo(@RequestBody TiMap req, Model model) throws Exception {
         JsonObject result      = new JsonObject();
         Gson gson        = new Gson();
 
