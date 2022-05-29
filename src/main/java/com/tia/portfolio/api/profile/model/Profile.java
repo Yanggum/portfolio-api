@@ -11,4 +11,6 @@ public class Profile {
     private String addrDetail;
     private String resumeLink;
     private String privateResumeLink;
+    private Integer pageNum;
+    private Integer pageSize;
 }

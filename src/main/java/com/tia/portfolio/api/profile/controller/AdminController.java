@@ -1,5 +1,6 @@
 package com.tia.portfolio.api.profile.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -43,14 +44,13 @@ public class AdminController {
         JsonObject result      = new JsonObject();
         Gson gson        = new Gson();
 
+        list.put("page", req.get("page"));
+        list.put("size", pageSize);
+
         // populate your list
-        JsonElement element = gson.toJsonTree(ps.listBy(list), new TypeToken<List<TiMap>>() {}.getType());
+        JsonElement element = gson.toJsonTree(ps.listBy(list), new TypeToken<PageInfo<TiMap>>() {}.getType());
 
-        if (!element.isJsonArray()) {
-            throw new Exception();
-        }
-
-        JsonArray jsonArray = new JsonArray();//element.getAsJsonArray();
+        JsonArray jsonArray = element.getAsJsonObject().get("list").getAsJsonArray();
 
         result.add("profileList", jsonArray);
         result.addProperty("respCode", "00000");

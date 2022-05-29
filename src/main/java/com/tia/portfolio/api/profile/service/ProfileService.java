@@ -1,6 +1,8 @@
 package com.tia.portfolio.api.profile.service;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tia.portfolio.api.common.util.TiMap;
 import com.tia.portfolio.api.profile.model.Profile;
 import com.tia.portfolio.api.profile.model.ProfileReq;
@@ -15,8 +17,9 @@ public class ProfileService {
     @Autowired
     ProfileServiceImpl nm;
 
-    public Page<TiMap> listBy(TiMap nr){
-        return nm.listBy(nr);
+    public PageInfo<TiMap> listBy(TiMap nr){
+        PageHelper.startPage(Integer.parseInt(nr.get("page").toString()), Integer.parseInt(nr.get("size").toString()));
+        return new PageInfo<TiMap>(nm.listBy(nr));
     }
 
     public TiMap itemBy(TiMap nr) { return nm.itemBy(nr); }
