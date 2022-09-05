@@ -77,44 +77,23 @@ public class ProfileController {
 
     @PostMapping(value="/get-potf-info")
     public String getProfileInfo(@RequestBody TiMap req) throws Exception {
-        JsonObject result      = new JsonObject();
-        Gson gson        = new Gson();
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("api");
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
+        JsonObject result       = new JsonObject();
+        Gson gson               = new Gson();
 
         // populate your list
-        try {
-            PfLandUserProfile profile = em.find(PfLandUserProfile.class, 1L, req);
-            PfLandUserProjectList projectList = em.find(PfLandUserProjectList.class, 1L, req);
-            PfLandUserSkill skillList = em.find(PfLandUserSkill.class, 1L, req);
-            PfLandUserTaskList taskList = em.find(PfLandUserTaskList.class, 1L, req);
+        JsonElement element = gson.toJsonTree(ps.itemBy(req));
 
-            if (profile == null) {
-                throw new Exception();
-            }
-            tx.commit();
-            JsonElement element = gson.toJsonTree(profile, new TypeToken<Map<String, Object>>() {}.getType());
-            element.getAsJsonObject().add("projectList", gson.toJsonTree(projectList, new TypeToken<Map<String, Object>>() {}.getType()));
-            element.getAsJsonObject().add("skillList", gson.toJsonTree(skillList, new TypeToken<Map<String, Object>>() {}.getType()));
-            element.getAsJsonObject().add("taskList", gson.toJsonTree(taskList, new TypeToken<Map<String, Object>>() {}.getType()));
+        JsonElement tsElement = gson.toJsonTree(ts.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
+        JsonElement ssElement = gson.toJsonTree(ss.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
+        JsonElement pjsElement = gson.toJsonTree(pjs.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
 
+        element.getAsJsonObject().add("taskList", tsElement);
+        element.getAsJsonObject().add("skillList", ssElement);
+        element.getAsJsonObject().add("projectList", pjsElement);
 
-            result.add("profileInfo", element);
-            result.addProperty("respCode", "00000");
-            result.addProperty("respMsg", "성공");
-
-        } catch (Exception e) {
-            tx.rollback();
-            throw e;
-        } finally {
-            em.close();
-            emf.close();
-        }
-//        JsonElement pjsElement = gson.toJsonTree(pjs.listBy(req), new TypeToken<List<TiMap>>() {}.getType());
-//        JsonElement element = gson.toJsonTree(profileMap, new TypeToken<Map<String, Object>>() {}.getType());
+        result.add("profileInfo", element);
+        result.addProperty("respCode", "00000");
+        result.addProperty("respMsg", "성공");
 
         return gson.toJson(result).toString();
     }
